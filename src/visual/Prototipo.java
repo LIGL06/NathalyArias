@@ -151,7 +151,8 @@ public class Prototipo extends javax.swing.JFrame {
     }//GEN-LAST:event_Cifra2CheckActionPerformed
 
     private void fireButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fireButtonActionPerformed
-            double table = 0; double []adivinado = new double[10];
+            double table = 0; double []adivinado = new double[11];
+            String st[] = new String[11]; int r=0;
             if(Cifra1Check.isSelected() && Cifra2Check.isSelected()){
                 JOptionPane.showMessageDialog(rootPane, "No puedes seleccionar 2 operaciones al mismo tiempo");
             }
@@ -161,15 +162,25 @@ public class Prototipo extends javax.swing.JFrame {
             else if (Cifra2Check.isSelected() && Cifra3Check.isSelected()){
                 JOptionPane.showMessageDialog(rootPane, "No puedes seleccionar 2 operaciones al mismo tiempo");
             }
-            JOptionPane.showInputDialog("Tabla a practicar: ",table);
-            logica ln = new logica(table);
-            
-            for (int i = 0; i < 10; i++) {
-                adivinado[i] = Double.parseDouble(JOptionPane.showInputDialog("Número de mutliplicar"+table+ " x " + i + " = ",adivinado[i]));
-                TableArea.append(ln.makeTableWithOne(table,adivinado[i])[i]);
-                //TableArea.append(ln.);
+            else if(Cifra1Check.isSelected()){
+                table = Double.parseDouble(JOptionPane.showInputDialog("Tabla a practicar: "));
+                logica ln = new logica(table);
+                for (int i = 0; i < st.length; i++) {
+                    do {
+                        if(adivinado[i]!=table*i){
+                            r++;
+                            adivinado[i] = Double.parseDouble(JOptionPane.showInputDialog("El resultado de: "+table+" x "+i+" = "));
+                            st[i] = (table+ " x " + i + " = "+adivinado[i]);
+                            TableArea.append(st[i]);
+                            TableArea.append("\n");
+                            ln.setDato(adivinado[i]);
+                        }
+                    } while (adivinado[i]!= table * i);
+                }
+                JOptionPane.showMessageDialog(rootPane,"**Número de intentos = " + (r)+"**Te equivocaste en: "+(r-10));
+                ln.makeTableWithOne(table, adivinado);
+                
             }
-            
     }//GEN-LAST:event_fireButtonActionPerformed
 
     /**
